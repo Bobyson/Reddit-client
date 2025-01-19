@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: #f0f0f0;
+}
+
+header {
+    background: #ff4500;   
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+#lanesContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+}
+
