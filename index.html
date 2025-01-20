@@ -7,22 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <header>
-        <h1>Reddit client</h1>
-    </header>
-    <main id="lanesContainer"></main>
-    <button id="addSubRedditbtn">+</button>
+    <div class="header">
+        <button id="menu-btn">☰</button>
+        <button id="toggle-popup">+</button>    
+    </div>
+    <button id="toggle-popup">+</button>
 
-    <!-- Pop up for adding subreddit -->
-     <div id="popup" class="hidden">
-        <div id="popup-content">
-            <h2>Enter the name of the subreddit</h2>
-            <input type="text" id="popupInput" />
-            <button id="popupAddBtn">Add Subreddit</button>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <label for="subreddit" id="subreddit-label">Enter the name of the subreddit</label>
+            <input type="text" id="subreddit">
+            <button id="add-subreddit">Add Subreddit</button>
         </div>
-     </div>
-
+        
+    </div>
      <script src="app.js"></script>
 </body>
 </html>
