@@ -24,5 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
     popup.classList.remove('active');
   })
 
+  function addLane() {
+    fetch(`https://www.reddit.com/r/{subreddit}.json`, {
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        }
+    })
+    .then((response) => {
+        if (!response.ok) throw new Error('Failed to fetch subreddit');
+        return response.json();
+    })
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((error)=>console.error(error.message)
+    ())
+  } 
+
+
+
   console.log("Reddit client is ready");
 });
