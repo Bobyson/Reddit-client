@@ -6,66 +6,72 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleButton = document.getElementById("toggle-popup");
   const popup = document.getElementById("popup");
 
-  toggleButton.addEventListener('click', () => {
-    popup.classList.toggle('active');
+  toggleButton.addEventListener("click", () => {
+    popup.classList.toggle("active");
 
     toggleButton.textContent = popup.classList.contains("active") ? "x" : "+";
   });
 
-  addSubredditBtn.addEventListener('click', () => {
+  addSubredditBtn.addEventListener("click", () => {
     const subreddit = subredditInput.value.trim();
     if (!subreddit) return;
+  });
 
-    const lane = document.createElement('div');
-    lane.classList.add('lane');
-    lane.innerHTML = `<h2>r/${subreddit}</h2><p>Loading...</p>`;
-    lanesContainer.appendChild(lane);
+  async function fetchSubreddit(subreddit) {
+    
 
-    popup.classList.remove('active');
-  })
-
-//   function addLane() {
-//     fetch(`https://www.reddit.com/r/{subreddit}.json`, {
-//         headers: {
-//             'User-Agent': 'Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-//         }
-//     })
-//     .then((response) => {
-//         if (!response.ok) throw new Error('Failed to fetch subreddit');
-//         return response.json();
-//     })
-//     .then((data) => {
-//         console.log(data);
-//     })
-//     .catch((error)=>console.error(error.message)
-//     ())
-//   } 
-
-async function fetchSubredditPosts(subreddit) {
     const url = `https://www.reddit.com/r/${subreddit}.json`;
     const headers = {
-        'User-Agent': 'Mozilla/5.0 (compatible; JavaScript script)'
+      "User-Agent": "Mozilla/5.0 (compatible; JavaScript script)",
     };
 
     try {
-        const response = await fetch(url, { headers });
-        if (response.ok) {
-            const data = await response.json();
-            const posts = data.data.children;
-            posts.forEach(post => {
-                console.log(post.data.title);
-            });
-        } else {
-            console.log(`Failed to fetch data: ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
+      const response = await fetch(url, { headers });
+      if (response.ok) {
+        const data = await response.json();
+        const lanes = data.data.children;
 
-// Example usage
-const subreddit = "VALORANT";
-fetchSubredditPosts(subreddit);
+        if (lanes.length === 0) {
+          lanesContainer.innerHTML = `<p>No post found</p>`;
+          return;
+        }
+        lanes.forEach((lane) => {
+          const lane = document.createElement("div");
+          lane.classList.add("lane");
+          lane.innerHTML = `<h2>${subreddit}</h2><p>Loading...</p>`;
+          lanesContainer.appendChild(lane);
+
+          popup.classList.remove("active");
+        });
+      }
+    } catch (error) {}
+  }
+
+  // async function fetchSubredditPosts(subreddit) {
+  //     const url = `https://www.reddit.com/r/${subreddit}.json`;
+  //     const headers = {
+  //         'User-Agent': 'Mozilla/5.0 (compatible; JavaScript script)'
+  //     };
+
+  //     try {
+  //         const response = await fetch(url, { headers });
+  //         if (response.ok) {
+  //             const data = await response.json();
+  //             const posts = data.data.children;
+  //             posts.forEach(post => {
+  //                 console.log(post.data.title);
+  //             });
+  //         } else {
+  //             console.log(`Failed to fetch data: ${response.status}`);
+  //         }
+  //     } catch (error) {
+  //         console.error('Error:', error);
+  //     }
+  // }
+
+  // // Example usage
+  // const subreddit = "VALORANT";
+  // fetchSubredditPosts(subreddit);
 
   console.log("Reddit client is ready");
 });
