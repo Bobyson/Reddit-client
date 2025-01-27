@@ -1,11 +1,10 @@
 /* Styling for popup */
 .popup {
     display: none; /* Initially hidden */
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    
-    padding: 20px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 10px;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -43,14 +42,15 @@
   }
   
   button#toggle-popup {
+    position: fixed;
+    top: 10px;
+    right: 10px;
     font-size: 20px;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #28a745;
+    border: none;
+    background: #007bff;
+    color: white;
   }
   
   button#toggle-popup:hover {
@@ -60,16 +60,23 @@
   #lanesContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px;
+    gap: 1rem;
   }
 
   .lane {
     border: 1px solid #ddd;
+    padding: 1rem;
     border-radius: 5px;
     width: 300px;
-    padding: 10px;
     background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .post:last-child {
+    border-bottom: none;
   }
