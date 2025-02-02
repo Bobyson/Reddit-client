@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
   const subredditInput = document.getElementById("subreddit");
   const lanesContainer = document.getElementById("lanesContainer");
   const addSubredditBtn = document.getElementById("add-subreddit");
@@ -9,9 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const existingLanes = new Set();
 
-  const savedSubreddits = JSON.parse(localStorage.getItem('subreddits')) || [];
+  const savedSubreddits = JSON.parse(localStorage.getItem("subreddits")) || [];
 
-  savedSubreddits.forEach(subreddit=> {
+  savedSubreddits.forEach((subreddit) => {
     fetchSubreddit(subreddit);
   });
 
@@ -46,8 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <p>Loading...</p>`;
     lanesContainer.appendChild(laneElement);
 
-    const removeBtn = laneElement.querySelector('.remove-lane');
-    removeBtn.addEventListener('click', () => {
+    const removeBtn = laneElement.querySelector(".remove-lane");
+    removeBtn.addEventListener("click", () => {
       laneElement.remove();
       existingLanes.delete(subreddit.toLowerCase());
 
@@ -71,22 +70,41 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class='remove-lane'>Remove</button>
           <div class = 'posts'>
             ${posts
-              .map(
-                (post) => `
-                <div class='post'>
-                  <h3>${post.data.title}</h3>
-                  <p>By: ${post.data.author}</p>
-                  <p>Votes: ${post.data.ups}</p>
-                </div>
-              `)
+              .slice(0, 5)
+              .map((post) => {
+                const postData = post.data;
+                const thumbnail =
+                  postData.thumbnail && postData.thumbnail.startsWith("http")
+                    ? `<img class="thumbnail" src="${postData.thumbnail}" alt="Thumbnail">`
+                    : "";
+
+                return `
+                    <div class="post">
+                      <div class="vote-section">
+                        <button class="vote-btn">⬆️</button>
+                        <span>${postData.ups}</span>
+                        <button class="vote-btn">⬇️</button>
+                      </div>
+                      <div class="post-content">
+                        <a href="https://www.reddit.com${postData.permalink}" target="_blank" class="post-title">
+                          ${postData.title}
+                        </a>
+                        <p class="post-meta">By <b>${postData.author}</b> | 💬 ${postData.num_comments} Comments</p>
+                      </div>
+                      ${thumbnail}
+                    </div>
+                  `;
+              })
               .join("")}
           </div>
         `;
-        laneElement.querySelector('.remove-lane').addEventListener('click', ()=> {
-          laneElement.remove();
-          existingLanes.delete(subreddit.toLowerCase());
-          updateLocalStorage();
-        });
+        laneElement
+          .querySelector(".remove-lane")
+          .addEventListener("click", () => {
+            laneElement.remove();
+            existingLanes.delete(subreddit.toLowerCase());
+            updateLocalStorage();
+          });
 
         existingLanes.add(subreddit.toLowerCase());
         popup.classList.remove("active");
@@ -107,7 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateLocalStorage() {
-    localStorage.setItem('subreddits', JSON.stringify(Array.from(existingLanes)));
+    localStorage.setItem(
+      "subreddits",
+      JSON.stringify(Array.from(existingLanes))
+    );
   }
 
   console.log("Reddit client is ready");
